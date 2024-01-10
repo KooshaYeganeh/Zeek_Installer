@@ -39,7 +39,8 @@ elif [ "$debian" == "debian" ];then
 		sudo apt update
 		sudo apt install zeek-lts -y
 		echo "Zeek Installed Successfully on Debian 12"
-
+	else
+		echo "Sorry.This Version is Not Supported"
 	fi
 
 elif [ "$fedora" == "fedora" ];then
@@ -57,9 +58,37 @@ elif [ "$fedora" == "fedora" ];then
 		sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/security:zeek/Fedora_38/security:zeek.repo
 		sudo dnf install zeek-lts -y
 	else 
-		echo "This Version No Supported"
+		echo "Sorry.This Version is Not Supported"
 	fi
 
+elif [ "$ubuntu" == "$Ubuntu" ];then
+	
+	echo "Start Install Zeek on Ubuntu"
+	
+	version_id_20=`cat /etc/os-release | grep -w 'VERSION_ID=20.04'`
+	version_id_22=`cat /etc/os-release | grep -w 'VERSION_ID=22.04'`
+	version_id_23=`cat /etc/os-release | grep -w 'VERSION_ID=23.04'`
+	if [ "$version_id_22" == 'VERSION_ID="22.04"' ];then
+		echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_22.04/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
+		curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_22.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+		sudo apt update
+		sudo apt install zeek-lts -y
+
+	elif [ "$version_id_23" == 'VERSION_ID="23.04"' ];then
+	
+		echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_23.04/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
+		curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_23.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+		sudo apt update
+		sudo apt install zeek-lts -y
+
+	elif [ "$version_id_20" == 'VERSION_ID="20.04"' ];then
+
+		echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
+		curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_20.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+		sudo apt update
+		sudo apt install zeek-lts -y
+
+	fi
 
 
 fi
