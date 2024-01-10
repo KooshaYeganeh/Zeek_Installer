@@ -1,0 +1,43 @@
+#!/bin/bash
+
+centos=`cat /etc/os-release | grep -w "centos"`
+debian=`cat /etc/os-release | grep -w "Debian"`
+fedora=`cat /etc/os-release | grep -w "fedora"`
+ubuntu=`cat /etc/os-release | grep -w "Ubuntu"`
+openSUSE=`cat /etc/os-release | grep -w "opensuse"`
+SLE=`cat /etc/os-release | grep -w "sles"`
+
+
+
+if [ "$centos" == "centos" ];then
+	echo "This Procedures For centOS 7"
+	cd /etc/yum.repos.d/
+
+	sudo wget https://download.opensuse.org/repositories/security:zeek/CentOS_7/security:zeek.repo
+
+	sudo yum install zeek-lts -y
+
+	## TODO : check software Installed Successfully
+	echo "Zeek Installed Successfully"
+
+elif [ "$debian" == "debian" ];then
+	version11=`cat /etc/os-release | grep -w 'VERSION_ID="11"'`
+	version12=`cat /etc/os-release | grep -w 'VERSION_ID="12"'`
+
+	if [ "$version11" == "VERSION_ID='11'" ];then
+		echo 'deb http://download.opensuse.org/repositories/security:/zeek/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
+		curl -fsSL https://download.opensuse.org/repositories/security:zeek/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+		sudo apt update
+		sudo apt install zeek-lts -y
+
+	elif [ "$version12" == "VERSION_ID='12'" ];then
+		echo 'deb http://download.opensuse.org/repositories/security:/zeek/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
+		curl -fsSL https://download.opensuse.org/repositories/security:zeek/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+		sudo apt update
+		sudo apt install zeek-lts -y
+	fi
+fi
+
+
+
+
