@@ -25,17 +25,43 @@ elif [ "$debian" == "debian" ];then
 	version12=`cat /etc/os-release | grep -w 'VERSION_ID="12"'`
 
 	if [ "$version11" == "VERSION_ID='11'" ];then
+		echo "Start Install Zeek on Debian 11"
 		echo 'deb http://download.opensuse.org/repositories/security:/zeek/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
 		curl -fsSL https://download.opensuse.org/repositories/security:zeek/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
 		sudo apt update
 		sudo apt install zeek-lts -y
+		sleep 2
+		echo "Zeek Installed Successfully on Debian 11"
 
 	elif [ "$version12" == "VERSION_ID='12'" ];then
 		echo 'deb http://download.opensuse.org/repositories/security:/zeek/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/security:zeek.list
 		curl -fsSL https://download.opensuse.org/repositories/security:zeek/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
 		sudo apt update
 		sudo apt install zeek-lts -y
+		echo "Zeek Installed Successfully on Debian 12"
+
 	fi
+
+elif [ "$fedora" == "fedora" ];then
+
+	version_id_37=`cat /etc/os-release | grep -w 'VERSION_ID=37'`
+	version_id_38=`cat /etc/os-release | grep -w 'VERSION_ID=38'`
+
+	if [ "$version_id_37" == "VERSION_ID=37" ];then
+		sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/security:zeek/Fedora_37/security:zeek.repo
+
+		sudo dnf install zeek-lts -y
+	
+
+	elif [ "$version_id_38" == "VERSION_ID=38" ];then
+		sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/security:zeek/Fedora_38/security:zeek.repo
+		sudo dnf install zeek-lts -y
+	else 
+		echo "This Version No Supported"
+	fi
+
+
+
 fi
 
 
