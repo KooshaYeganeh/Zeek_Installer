@@ -4,7 +4,7 @@ centos=`cat /etc/os-release | grep -w "centos"`
 debian=`cat /etc/os-release | grep -w "Debian"`
 fedora=`cat /etc/os-release | grep -w "fedora"`
 ubuntu=`cat /etc/os-release | grep -w "Ubuntu"`
-openSUSE=`cat /etc/os-release | grep -w "opensuse"`
+openSUSE=`cat /etc/os-release | grep -w "opensuse-leap"`
 SLE=`cat /etc/os-release | grep -w "sles"`
 
 
@@ -90,6 +90,20 @@ elif [ "$ubuntu" == "$Ubuntu" ];then
 
 	fi
 
+
+elif [ "$openSUSE" == "opensuse-leap" ];then
+	check_version=`cat /etc/os-release | grep -w '15.5'`
+
+	if [ "$check_version" == "15.5" ];then
+		sudo zypper addrepo https://download.opensuse.org/repositories/security:zeek/15.5/security:zeek.repo
+		sudo zypper refresh
+		sudo zypper -n install zeek-lts
+	fi
+
+elif [ "$SLE" == "sles" ];then
+	sudo zypper addrepo https://download.opensuse.org/repositories/security:zeek/openSUSE_Leap_15.4/security:zeek.repo
+	sudo zypper refresh
+	sudo zypper install -n zeek-lts
 
 fi
 
